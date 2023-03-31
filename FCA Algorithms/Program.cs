@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
@@ -222,7 +223,7 @@ namespace FCA_Algorithms
             while (parentIsHighest)
             {
                 parentIsHighest = false;
-                List<Concept> parents = lattice[generatorConcept];
+                List<Concept> parents = lattice[generatorConcept].ToList();
 
                 if (parents != null)
                 {
@@ -243,10 +244,10 @@ namespace FCA_Algorithms
 
         public static Concept Add(List<string> intent, Concept generatorConcept, Dictionary<Concept, List<Concept>> lattice)
         {
-            generatorConcept = GetHighestNodeOfIntent(intent, generatorConcept, lattice);
-            if (generatorConcept.Intent == intent) return generatorConcept;
+            generatorConcept = GetHighestNodeOfIntent(intent.ToList(), generatorConcept, lattice);
+            if (Enumerable.SequenceEqual(generatorConcept.Intent, intent)) return generatorConcept;
 
-            List<Concept> generatorParents = lattice[generatorConcept];
+            List<Concept> generatorParents = lattice[generatorConcept].ToList();
             List<Concept> newParents = new List<Concept>();
 
             if (generatorParents != null)
@@ -273,7 +274,7 @@ namespace FCA_Algorithms
                 }
             }
 
-            Concept newConcept = new Concept(generatorConcept.Extent, intent);
+            Concept newConcept = new Concept(generatorConcept.Extent.ToList(), intent);
 
             lattice.Add(newConcept, new List<Concept>());
             if (newParents != null)
