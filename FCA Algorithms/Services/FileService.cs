@@ -18,7 +18,7 @@ namespace FCA_Algorithms.Services
                 var jsonString = File.ReadAllText(contextFilePath);
                 var combinedObjects = JsonConvert.DeserializeObject<List<CombinedObject>>(jsonString);
 
-                return new FormalContext(combinedObjects);
+                return new FormalContext(combinedObjects[0].ObjNames, combinedObjects[0].Params.AttrNames, combinedObjects[1].Data);
             }
             else
                 return null;

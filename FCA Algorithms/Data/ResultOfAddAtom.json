@@ -1,7 +1,7 @@
 {
   "Data": {
-    "NodesCount": 20,
-    "ArcsCount": 9
+    "NodesCount": 19,
+    "ArcsCount": 10
   },
   "Nodes": [
     {
@@ -10,17 +10,18 @@
         "Names": []
       },
       "Int": {
-        "Count": 9,
+        "Count": 10,
         "Names": [
-          "needs water to live",
-          "lives in water",
-          "lives on land",
-          "needs chlorophyll",
-          "dicotyledon",
-          "monocotyledon",
-          "can move",
-          "has limbs",
-          "breast feeds"
+          "0",
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9"
         ]
       }
     },
@@ -28,17 +29,112 @@
       "Ext": {
         "Count": 3,
         "Names": [
-          "fish leech",
-          "bream",
-          "frog"
+          "1",
+          "4",
+          "8"
         ]
       },
       "Int": {
+        "Count": 2,
+        "Names": [
+          "2",
+          "8"
+        ]
+      }
+    },
+    {
+      "Ext": {
+        "Count": 10,
+        "Names": [
+          "1",
+          "2",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10",
+          "12"
+        ]
+      },
+      "Int": {
+        "Count": 1,
+        "Names": [
+          "8"
+        ]
+      }
+    },
+    {
+      "Ext": {
         "Count": 3,
         "Names": [
-          "needs water to live",
-          "lives in water",
-          "can move"
+          "2",
+          "7",
+          "12"
+        ]
+      },
+      "Int": {
+        "Count": 2,
+        "Names": [
+          "5",
+          "8"
+        ]
+      }
+    },
+    {
+      "Ext": {
+        "Count": 13,
+        "Names": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10",
+          "11",
+          "12",
+          "13"
+        ]
+      },
+      "Int": {
+        "Count": 0,
+        "Names": []
+      }
+    },
+    {
+      "Ext": {
+        "Count": 1,
+        "Names": [
+          "3"
+        ]
+      },
+      "Int": {
+        "Count": 2,
+        "Names": [
+          "3",
+          "6"
+        ]
+      }
+    },
+    {
+      "Ext": {
+        "Count": 4,
+        "Names": [
+          "3",
+          "5",
+          "6",
+          "13"
+        ]
+      },
+      "Int": {
+        "Count": 1,
+        "Names": [
+          "6"
         ]
       }
     },
@@ -46,17 +142,15 @@
       "Ext": {
         "Count": 2,
         "Names": [
-          "bream",
-          "frog"
+          "5",
+          "6"
         ]
       },
       "Int": {
-        "Count": 4,
+        "Count": 2,
         "Names": [
-          "needs water to live",
-          "lives in water",
-          "can move",
-          "has limbs"
+          "6",
+          "8"
         ]
       }
     },
@@ -64,38 +158,31 @@
       "Ext": {
         "Count": 1,
         "Names": [
-          "frog"
+          "6"
         ]
       },
       "Int": {
-        "Count": 5,
+        "Count": 4,
         "Names": [
-          "needs water to live",
-          "lives in water",
-          "lives on land",
-          "can move",
-          "has limbs"
+          "4",
+          "6",
+          "7",
+          "8"
         ]
       }
     },
     {
       "Ext": {
-        "Count": 8,
+        "Count": 2,
         "Names": [
-          "fish leech",
-          "bream",
-          "frog",
-          "dog",
-          "water weeds",
-          "reed",
-          "bean",
-          "corn"
+          "3",
+          "7"
         ]
       },
       "Int": {
         "Count": 1,
         "Names": [
-          "needs water to live"
+          "3"
         ]
       }
     },
@@ -103,33 +190,16 @@
       "Ext": {
         "Count": 3,
         "Names": [
-          "bream",
-          "frog",
-          "dog"
+          "6",
+          "7",
+          "9"
         ]
       },
       "Int": {
         "Count": 2,
         "Names": [
-          "needs water to live",
-          "has limbs"
-        ]
-      }
-    },
-    {
-      "Ext": {
-        "Count": 2,
-        "Names": [
-          "frog",
-          "dog"
-        ]
-      },
-      "Int": {
-        "Count": 3,
-        "Names": [
-          "needs water to live",
-          "lives on land",
-          "has limbs"
+          "7",
+          "8"
         ]
       }
     },
@@ -137,126 +207,16 @@
       "Ext": {
         "Count": 1,
         "Names": [
-          "dog"
-        ]
-      },
-      "Int": {
-        "Count": 5,
-        "Names": [
-          "needs water to live",
-          "lives on land",
-          "monocotyledon",
-          "has limbs",
-          "breast feeds"
-        ]
-      }
-    },
-    {
-      "Ext": {
-        "Count": 5,
-        "Names": [
-          "fish leech",
-          "bream",
-          "frog",
-          "water weeds",
-          "reed"
-        ]
-      },
-      "Int": {
-        "Count": 2,
-        "Names": [
-          "needs water to live",
-          "lives in water"
-        ]
-      }
-    },
-    {
-      "Ext": {
-        "Count": 4,
-        "Names": [
-          "dog",
-          "water weeds",
-          "reed",
-          "corn"
-        ]
-      },
-      "Int": {
-        "Count": 2,
-        "Names": [
-          "needs water to live",
-          "monocotyledon"
-        ]
-      }
-    },
-    {
-      "Ext": {
-        "Count": 2,
-        "Names": [
-          "water weeds",
-          "reed"
+          "7"
         ]
       },
       "Int": {
         "Count": 4,
         "Names": [
-          "needs water to live",
-          "lives in water",
-          "needs chlorophyll",
-          "monocotyledon"
-        ]
-      }
-    },
-    {
-      "Ext": {
-        "Count": 5,
-        "Names": [
-          "frog",
-          "dog",
-          "reed",
-          "bean",
-          "corn"
-        ]
-      },
-      "Int": {
-        "Count": 2,
-        "Names": [
-          "needs water to live",
-          "lives on land"
-        ]
-      }
-    },
-    {
-      "Ext": {
-        "Count": 2,
-        "Names": [
-          "frog",
-          "reed"
-        ]
-      },
-      "Int": {
-        "Count": 3,
-        "Names": [
-          "needs water to live",
-          "lives in water",
-          "lives on land"
-        ]
-      }
-    },
-    {
-      "Ext": {
-        "Count": 3,
-        "Names": [
-          "dog",
-          "reed",
-          "corn"
-        ]
-      },
-      "Int": {
-        "Count": 3,
-        "Names": [
-          "needs water to live",
-          "lives on land",
-          "monocotyledon"
+          "3",
+          "5",
+          "7",
+          "8"
         ]
       }
     },
@@ -264,17 +224,14 @@
       "Ext": {
         "Count": 1,
         "Names": [
-          "reed"
+          "10"
         ]
       },
       "Int": {
-        "Count": 5,
+        "Count": 2,
         "Names": [
-          "needs water to live",
-          "lives in water",
-          "lives on land",
-          "needs chlorophyll",
-          "monocotyledon"
+          "1",
+          "8"
         ]
       }
     },
@@ -282,35 +239,66 @@
       "Ext": {
         "Count": 4,
         "Names": [
-          "water weeds",
-          "reed",
-          "bean",
-          "corn"
+          "6",
+          "7",
+          "9",
+          "11"
         ]
       },
       "Int": {
-        "Count": 2,
+        "Count": 1,
         "Names": [
-          "needs water to live",
-          "needs chlorophyll"
+          "7"
         ]
       }
     },
     {
       "Ext": {
-        "Count": 3,
+        "Count": 5,
         "Names": [
-          "reed",
-          "bean",
-          "corn"
+          "2",
+          "7",
+          "11",
+          "12",
+          "13"
         ]
       },
       "Int": {
-        "Count": 3,
+        "Count": 1,
         "Names": [
-          "needs water to live",
-          "lives on land",
-          "needs chlorophyll"
+          "5"
+        ]
+      }
+    },
+    {
+      "Ext": {
+        "Count": 2,
+        "Names": [
+          "7",
+          "11"
+        ]
+      },
+      "Int": {
+        "Count": 2,
+        "Names": [
+          "5",
+          "7"
+        ]
+      }
+    },
+    {
+      "Ext": {
+        "Count": 2,
+        "Names": [
+          "6",
+          "12"
+        ]
+      },
+      "Int": {
+        "Count": 2,
+        "Names": [
+          "4",
+          "8"
         ]
       }
     },
@@ -318,52 +306,30 @@
       "Ext": {
         "Count": 1,
         "Names": [
-          "bean"
-        ]
-      },
-      "Int": {
-        "Count": 4,
-        "Names": [
-          "needs water to live",
-          "lives on land",
-          "needs chlorophyll",
-          "dicotyledon"
-        ]
-      }
-    },
-    {
-      "Ext": {
-        "Count": 3,
-        "Names": [
-          "water weeds",
-          "reed",
-          "corn"
+          "12"
         ]
       },
       "Int": {
         "Count": 3,
         "Names": [
-          "needs water to live",
-          "needs chlorophyll",
-          "monocotyledon"
+          "4",
+          "5",
+          "8"
         ]
       }
     },
     {
       "Ext": {
+        "Count": 1,
+        "Names": [
+          "13"
+        ]
+      },
+      "Int": {
         "Count": 2,
         "Names": [
-          "reed",
-          "corn"
-        ]
-      },
-      "Int": {
-        "Count": 4,
-        "Names": [
-          "needs water to live",
-          "lives on land",
-          "needs chlorophyll",
-          "monocotyledon"
+          "5",
+          "6"
         ]
       }
     }
@@ -371,23 +337,47 @@
   "Arcs": [
     {
       "S": 1,
-      "D": 2
+      "D": 0
+    },
+    {
+      "S": 2,
+      "D": 1
     },
     {
       "S": 2,
       "D": 3
     },
     {
+      "S": 2,
+      "D": 7
+    },
+    {
+      "S": 2,
+      "D": 10
+    },
+    {
+      "S": 2,
+      "D": 12
+    },
+    {
+      "S": 2,
+      "D": 16
+    },
+    {
       "S": 3,
-      "D": 0
+      "D": 11
+    },
+    {
+      "S": 3,
+      "D": 17
     },
     {
       "S": 4,
-      "D": 5
+      "D": 2
     },
     {
       "S": 4,
-      "D": 8
+      "D": 6
     },
     {
       "S": 4,
@@ -395,107 +385,91 @@
     },
     {
       "S": 4,
-      "D": 11
+      "D": 13
     },
     {
       "S": 4,
-      "D": 15
+      "D": 14
     },
     {
       "S": 5,
-      "D": 2
-    },
-    {
-      "S": 5,
-      "D": 6
+      "D": 0
     },
     {
       "S": 6,
-      "D": 3
+      "D": 5
     },
     {
       "S": 6,
       "D": 7
+    },
+    {
+      "S": 6,
+      "D": 18
     },
     {
       "S": 7,
+      "D": 8
+    },
+    {
+      "S": 8,
       "D": 0
     },
     {
-      "S": 8,
-      "D": 1
-    },
-    {
-      "S": 8,
-      "D": 10
-    },
-    {
-      "S": 8,
-      "D": 12
+      "S": 9,
+      "D": 5
     },
     {
       "S": 9,
-      "D": 13
-    },
-    {
-      "S": 9,
-      "D": 18
+      "D": 11
     },
     {
       "S": 10,
-      "D": 14
+      "D": 8
+    },
+    {
+      "S": 10,
+      "D": 11
     },
     {
       "S": 11,
-      "D": 6
-    },
-    {
-      "S": 11,
-      "D": 12
-    },
-    {
-      "S": 11,
-      "D": 13
-    },
-    {
-      "S": 11,
-      "D": 16
-    },
-    {
-      "S": 12,
-      "D": 3
-    },
-    {
-      "S": 12,
-      "D": 14
-    },
-    {
-      "S": 13,
-      "D": 7
-    },
-    {
-      "S": 13,
-      "D": 19
-    },
-    {
-      "S": 14,
       "D": 0
     },
     {
-      "S": 15,
-      "D": 16
+      "S": 12,
+      "D": 0
+    },
+    {
+      "S": 13,
+      "D": 10
+    },
+    {
+      "S": 13,
+      "D": 15
+    },
+    {
+      "S": 14,
+      "D": 3
+    },
+    {
+      "S": 14,
+      "D": 15
+    },
+    {
+      "S": 14,
+      "D": 18
     },
     {
       "S": 15,
-      "D": 18
+      "D": 11
+    },
+    {
+      "S": 16,
+      "D": 8
     },
     {
       "S": 16,
       "D": 17
-    },
-    {
-      "S": 16,
-      "D": 19
     },
     {
       "S": 17,
@@ -503,15 +477,7 @@
     },
     {
       "S": 18,
-      "D": 10
-    },
-    {
-      "S": 18,
-      "D": 19
-    },
-    {
-      "S": 19,
-      "D": 14
+      "D": 0
     }
   ]
 }

@@ -6,10 +6,12 @@ namespace FCA_Algorithms.Algorithms
 {
     public class AlgorithmAddAtom
     {
-        public static int i = 1;
+        public static int i;
         public static Dictionary<Concept, List<Concept>> AddAtom(FormalContext fc)
         {
-            var bottomConcept = new Concept(new List<string>(), fc.M, 0);
+            i = 0;
+            var bottomConcept = new Concept(new List<string>(), fc.M, i);
+            i++;
 
             var lattice = new Dictionary<Concept, List<Concept>>()
             {
@@ -18,16 +20,25 @@ namespace FCA_Algorithms.Algorithms
 
             foreach (var g in fc.G)
             {
-                
                 Add(fc.GetAttributesOfObject(g), g, bottomConcept, lattice);
+            }
+
+            if (lattice[bottomConcept].Count == 1 && bottomConcept.Intent.All(item => lattice.ElementAt(1).Key.Intent.Contains(item)))
+            {
+                foreach (var node in lattice)
+                {
+                    node.Key.Id--;
+                }
+
+                lattice.Remove(bottomConcept);
             }
 
             return lattice;
         }
 
-        private static Concept Add(List<string> intent, string g, Concept generatorConcept, Dictionary<Concept, List<Concept>> lattice)
+        public static Concept Add(List<string> intent, string g, Concept generatorConcept, Dictionary<Concept, List<Concept>> lattice)
         {
-            var candidateParents = lattice[generatorConcept];
+            var candidateParents = lattice[generatorConcept].ToList();
             var nodeHighests = new List<Concept>(); //newParents
 
             for (int i = 0; i < candidateParents.Count(); i++)
@@ -51,6 +62,7 @@ namespace FCA_Algorithms.Algorithms
                     return highest;
 
                 var addHighest = true;
+
                 if (nodeHighests != null)
                 {
                     var nodeHighestsCopy = nodeHighests.ToList();
@@ -64,7 +76,7 @@ namespace FCA_Algorithms.Algorithms
                         else if (nodeHighest.Intent.All(item => highest.Intent.Contains(item)))
                             nodeHighestsCopy.Remove(nodeHighest);
                     }
-                    nodeHighests = nodeHighestsCopy;
+                    nodeHighests = nodeHighestsCopy.ToList();
                 }
 
                 if (addHighest) nodeHighests.Add(highest);
@@ -85,7 +97,7 @@ namespace FCA_Algorithms.Algorithms
             return newConcept;
         }
 
-        private static void AddGToExtentAbove(string g, Concept objectConcept, Dictionary<Concept, List<Concept>> lattice)
+        public static void AddGToExtentAbove(string g, Concept objectConcept, Dictionary<Concept, List<Concept>> lattice)
         {
             var parents = lattice[objectConcept];
 
@@ -98,9 +110,11 @@ namespace FCA_Algorithms.Algorithms
             }
 
             lattice[objectConcept] = parents;
+            //lattice.Remove(objectConcept);
+            //lattice.Add(objectConcept, parents);
         }
 
-        private static Concept GetHighestNodeOfIntent(List<string> intent, Concept generatorConcept, Dictionary<Concept, List<Concept>> lattice)
+        public static Concept GetHighestNodeOfIntent(List<string> intent, Concept generatorConcept, Dictionary<Concept, List<Concept>> lattice)
         {
             bool parentIsHighest = true;
 
