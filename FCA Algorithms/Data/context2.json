@@ -1,0 +1,30 @@
+[
+  {
+    "ObjNames": [
+      "Object0",
+      "Object1",
+      "Object2"
+    ],
+    "Params": {
+      "AttrNames": [
+        "Attribute0",
+        "Attribute1",
+        "Attribute2"
+      ]
+    }
+  },
+  {
+    "Count": 8,
+    "Data": [
+      {
+        "Inds": [ 2 ]
+      },
+      {
+        "Inds": [ 0, 2 ]
+      },
+      {
+        "Inds": [ 1, 2 ]
+      },
+    ]
+  }
+]

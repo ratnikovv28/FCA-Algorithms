@@ -1,296 +1,207 @@
-﻿using Newtonsoft.Json;
+﻿using FCA_Algorithms.Algorithms;
+using FCA_Algorithms.Models;
+using FCA_Algorithms.Services;
+using Newtonsoft.Json;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
+using System.Diagnostics;
+using System.Net.Http.Headers;
 using System.Text.Json;
+using System.Xml.Linq;
 
 namespace FCA_Algorithms
 {
-
-    public class Params
-    {
-        public List<string> AttrNames { get; set; }
-    }
-
-    public class ObjNames
-    {
-    }
-
-    public class RootObject
-    {
-        public ObjNames ObjNames { get; set; }
-        public Params Params { get; set; }
-    }
-
-    public class Data
-    {
-        public List<int> Inds { get; set; }
-    }
-
-    public class DataObject
-    {
-        public List<Data> Data { get; set; }
-    }
-
-    public class CombinedObject
-    {
-        public ObjNames ObjNames { get; set; }
-        public Params Params { get; set; }
-        public List<Data> Data { get; set; }
-    }
-
-    class FormalContext
-    {
-        private List<string> _g;
-        private List<string> _m;
-        private Dictionary<string, List<string>> _i;
-
-        public List<string> M
-        {
-            get { return _m; }
-            set { _m = value; }
-        }
-
-        public List<string> G
-        {
-            get { return _g; }
-            set { _g = value; }
-        }
-
-        public Dictionary<string, List<string>> I
-        {
-            get { return _i; }
-            set { _i = value; }
-        }
-
-        public FormalContext(List<string> g, List<string> m, Dictionary<string, List<string>> i)
-        {
-            G = g;
-            M = m;
-            I = i;
-        }
-
-        public bool HasAttribute(string attribute)
-        {
-            return M.Contains(attribute);
-        }
-
-        public bool HasObject(string obj)
-        {
-            return G.Contains(obj);
-        }
-
-        public bool HasIncidence(string obj, string attribute)
-        {
-            if (I.ContainsKey(obj))
-            {
-                return I[obj].Contains(attribute);
-            }
-            return false;
-        }
-
-        public List<string> GetObjectsWithAttribute(string attribute)
-        {
-            List<string> objects = new List<string>();
-            foreach (var obj in G)
-            {
-                if (HasIncidence(obj, attribute))
-                {
-                    objects.Add(obj);
-                }
-            }
-            return objects;
-        }
-
-        public List<string> GetAttributesOfObject(string obj)
-        {
-            if (I.ContainsKey(obj))
-            {
-                return I[obj];
-            }
-            return new List<string>();
-        }
-    }
-
-    public class Concept
-    {
-        private List<string> _extent;
-        private List<string> _intent;
-
-        public List<string> Extent
-        {
-            get { return _extent; }
-            set { _extent = value; }
-        }
-
-        public List<string> Intent
-        {
-            get { return _intent; }
-            set { _intent = value; }
-        }
-
-        public Concept(List<string> extent, List<string> intent)
-        {
-            _extent = extent;
-            _intent = intent;
-        }
-    }
-    
     internal class Program
     {
+        public static long addAtomTimeTicks = 0;
+        public static long addIntentTimeTicks = 0;
+        public static bool filteringFlag = false;
+
+        public static FormalContext fc;
+        public static Dictionary<Concept, List<Concept>> addAtom;
+        public static Dictionary<Concept, List<Concept>> addIntent;
+
+
         static void Main(string[] args)
         {
-            //// Создаем формальный контекст
-            //List<string> g = new List<string>() { "1", "2", "3" };
-            //List<string> m = new List<string>() { "a", "b", "c", "d" };
-            //Dictionary<string, List<string>> i = new Dictionary<string, List<string>>();
-            //i.Add("1", new List<string>() { "a", "c" });
-            //i.Add("2", new List<string>() { "b", "c" });
-            //i.Add("3", new List<string>() { "a", "b", "c", "d" });
-            //FormalContext fc = new FormalContext(g, m, i);
+            while (true)
+            {
+                Console.Clear();
+                Console.WriteLine("An application for finding maximal rectangles in a formal context using the AddAtom and AddIntent algorithm\n");
+                Console.WriteLine("1 - Infomation about algorithms");
+                Console.WriteLine("2 - Start algorithms");
+                if(filteringFlag)
+                    Console.WriteLine("3 - Find context data");
+                Console.WriteLine("0 - Exiting the program");
+                switch (char.ToLower(Console.ReadKey(true).KeyChar))
+                {
+                    case '1': ShowInfoAboutAlgorithms(); break;
+                    case '2': StartAlgorithms(); break;
+                    case '3' when filteringFlag == true: FindContextData(); break;
+                    case '0': return;
+                    default: break;
+                }
+            }
+        }
 
-            //Dictionary<Concept, List<Concept>> lattice = AddIntent(fc);
+        public static void ShowInfoAboutAlgorithms()
+        {
+            Console.Clear();
 
-            string fileName = "data.json";
-            string jsonString = File.ReadAllText(fileName);
+            Console.WriteLine("Infomation about algorithms\n");
 
-            var combinedObjects = JsonConvert.DeserializeObject<List<CombinedObject>>(jsonString);
+            Console.WriteLine("AddAtom algorithm - an algorithm for constructing lattices, called by Van Der Merwes EA lattices.\n" +
+                "An EA-lattice of context is a lattice of Van Der Merwe concepts, supplemented\nwith individual elements for each attribute and object.\n");
+
+            Console.WriteLine("AddIntent algorithm - an algorithm for constructing grids, is a later version of AddAtom.\n" +
+                "Being incremental, it relies on the graph constructed from the first objects of the context to integrate\nthe next object into the lattice." +
+                "It takes a lattice of concepts as input, initially adding content\nto the lattice, after adding the objects themselves on top of the reified, created node.\n");
+
+            Console.WriteLine("For this program to work correctly, you need to load the context into the Data folder and name the file context.json");
+
+            Console.WriteLine("\nPress any button to exit to the main menu");
+            Console.ReadKey(true);
+        }
+
+        public static void StartAlgorithms()
+        {
+            Console.Clear();
+
+            string contextFilePath = @"..\..\..\Data\context.json";
 
             //Создаем формальный контекст на основании входного файла
-            var objectWithIntents = combinedObjects[1].Data;
-
-            var G = new List<string>();
-            var M = combinedObjects[0].Params.AttrNames;
-            var I = new Dictionary<string, List<string>>();
-
-            //Добавляем в матрицу инцидентности формальные понятия
-            for (int i = 0; i < objectWithIntents.Count(); i++)
+            fc = FileService.GetDataFromJsonFile(contextFilePath);
+            if (fc == null)
             {
-                G.Add((i + 1).ToString());
-                I.Add((i + 1).ToString(), objectWithIntents[i].Inds.Select(intent => M[intent]).ToList());
+                Console.WriteLine("There is no context file in the Data folder! Load it before running the algorithm");
+
+                Console.WriteLine("\nPress any button to exit to the main menu");
+                Console.ReadKey(true);
+
+                return;
             }
 
-            var fc = new FormalContext(G, M, I);
+            Console.WriteLine("AddAtom began its execution");
+            var sw1 = new Stopwatch();
+            sw1.Start();
+            addAtom = AlgorithmAddAtom.AddAtom(fc);
+            sw1.Stop();
+            addAtomTimeTicks = sw1.ElapsedTicks;
+            Console.WriteLine("AddAtom has finished its execution\n");
 
-            var addIntent = AddIntent(fc);
+            Console.WriteLine("AddIntent began its execution");
+            var sw2 = new Stopwatch();
+            sw2.Start();
+            addIntent = AlgorithmAddIntent.AddIntent(fc);
+            sw2.Stop();
+            addIntentTimeTicks = sw2.ElapsedTicks;
+            Console.WriteLine("AddIntent has finished its execution\n");
 
-            Console.WriteLine();
+            //Кладем данные работы двух алгоритмов в файлы
+            FileService.SetDataToJsonFiles(addAtom, addIntent, fc.M.Count, null);
+
+            Console.WriteLine("Algorithms execution time:");
+            Console.WriteLine($"AddAtom ticks: {addAtomTimeTicks}");
+            Console.WriteLine($"AddIntent ticks: {addIntentTimeTicks}");
+
+            filteringFlag = true;
+
+            Console.WriteLine("\nPress any button to exit to the main menu");
+            Console.ReadKey(true);
         }
 
-        public static Dictionary<Concept, List<Concept>> AddIntent(FormalContext fc)
+        public static void FindContextData()
         {
-            Concept bottomConcept = new Concept(new List<string>(), fc.M);
+            Console.Clear();
 
-            Dictionary<Concept, List<Concept>> lattice = new Dictionary<Concept, List<Concept>>()
+            var inputObjects = "";
+            var inputAttributes = "";
+            var flag = true;
+            var selectedObjects = new List<string>();
+            var selectedAttributes = new List<string>();
+
+            Console.WriteLine("Selecting context data\n");
+
+            while (flag)
             {
-                { bottomConcept, new List<Concept>() }
-            };
-
-            foreach (var g in fc.G)
-            {
-                Concept objectConcept = Add(fc.GetAttributesOfObject(g), bottomConcept, lattice);
-
-                AddGToExtentAbove(g, objectConcept, lattice);
-            }
-
-            lattice.Remove(bottomConcept);
-
-            return lattice;
-        }
-
-        public static void AddGToExtentAbove(string g, Concept objectConcept, Dictionary<Concept, List<Concept>> lattice)
-        {
-            if(!objectConcept.Extent.Contains(g))
-                objectConcept.Extent.Add(g);
-
-            var parents = lattice[objectConcept];
-
-            foreach (var parent in parents)
-            {
-                AddGToExtentAbove(g, parent, lattice);
-            }
-
-            lattice.Remove(objectConcept);
-            lattice.Add(objectConcept, parents);
-        }
-
-        public static Concept GetHighestNodeOfIntent(List<string> intent, Concept generatorConcept, Dictionary<Concept, List<Concept>> lattice)
-        {
-            bool parentIsHighest = true;
-
-            while (parentIsHighest)
-            {
-                parentIsHighest = false;
-                List<Concept> parents = lattice[generatorConcept].ToList();
-
-                if (parents != null)
+                Console.WriteLine("Choose how items will be selected:");
+                Console.WriteLine("1 - by objects");
+                Console.WriteLine("2 - by attributes");
+                Console.WriteLine("3 - by objects and attributes");
+                Console.WriteLine("0 - Exit to the main menu");
+                switch (char.ToLower(Console.ReadKey(true).KeyChar))
                 {
-                    foreach (var parent in parents)
-                    {
-                        if (intent.All(item => parent.Intent.Contains(item)))
+                    case '1':
                         {
-                            generatorConcept = parent;
-                            parentIsHighest = true;
-                            break;
+                            Console.WriteLine("Enter a list of objects separated by commas");
+                            inputObjects = Console.ReadLine();
+                            selectedObjects = inputObjects.Split(",", StringSplitOptions.RemoveEmptyEntries).Select(w => w.Trim()).Where(w => fc.G.Contains(w.ToLower())).ToList();
+                            flag = false;
                         }
+                        break;
+                    case '2':
+                        {
+                            Console.WriteLine("Enter a list of attributes separated by commas");
+                            inputAttributes = Console.ReadLine();
+                            selectedAttributes = inputAttributes.Split(",", StringSplitOptions.RemoveEmptyEntries).Select(w => w.Trim()).Where(w => fc.M.Contains(w.ToLower())).ToList();
+                            flag = false;
+                        }
+                        break;
+                    case '3':
+                        {
+                            Console.WriteLine("Enter a list of objects separated by commas");
+                            inputObjects = Console.ReadLine();
+                            selectedObjects = inputObjects.Split(",", StringSplitOptions.RemoveEmptyEntries).Select(w => w.Trim()).Where(w => fc.G.Contains(w.ToLower())).ToList();
+
+                            Console.WriteLine("Enter a list of attributes separated by commas");
+                            inputAttributes = Console.ReadLine();
+                            selectedAttributes = inputAttributes.Split(",", StringSplitOptions.RemoveEmptyEntries).Select(w => w.Trim()).Where(w => fc.M.Contains(w.ToLower())).ToList();
+                            flag = false;
+                        }
+                        break;
+                    case '0': return;
+                    default: break;
+                }
+            }
+
+            var filteringAddAtomData = FilterData(addAtom, selectedObjects, selectedAttributes);
+            var filteringAddIntentData = FilterData(addIntent, selectedObjects, selectedAttributes);
+
+            FileService.SetDataToJsonFiles(filteringAddAtomData, filteringAddIntentData, fc.M.Count, true);
+
+            Console.WriteLine("\nPress any button to exit to the main menu");
+            Console.ReadKey(true);
+        }
+
+        private static Dictionary<Concept, List<Concept>> FilterData(Dictionary<Concept, List<Concept>> dataSet, List<string> selectedObjects, List<string> selectedAttributes)
+        {
+            var filteredDataSet = new Dictionary<Concept, List<Concept>>();
+
+            foreach (var node in dataSet)
+            {
+                if (selectedObjects.Count != 0 && selectedAttributes.Count != 0)
+                {
+                    if (selectedObjects.All(item => node.Key.Extent.Contains(item)) && selectedAttributes.All(item => node.Key.Intent.Contains(item)))
+                    {
+                        filteredDataSet.Add(node.Key, node.Value);
+                    }
+                }
+                else if (selectedObjects.Count != 0)
+                {
+                    if (selectedObjects.All(item => node.Key.Extent.Contains(item)))
+                    {
+                        filteredDataSet.Add(node.Key, node.Value);
+                    }
+                }
+                else if (selectedAttributes.Count != 0)
+                {
+                    if (selectedAttributes.All(item => node.Key.Intent.Contains(item)))
+                    {
+                        filteredDataSet.Add(node.Key, node.Value);
                     }
                 }
             }
 
-            return generatorConcept;
+            return filteredDataSet;
         }
-
-        public static Concept Add(List<string> intent, Concept generatorConcept, Dictionary<Concept, List<Concept>> lattice)
-        {
-            generatorConcept = GetHighestNodeOfIntent(intent.ToList(), generatorConcept, lattice);
-            if (Enumerable.SequenceEqual(generatorConcept.Intent, intent)) return generatorConcept;
-
-            List<Concept> generatorParents = lattice[generatorConcept].ToList();
-            List<Concept> newParents = new List<Concept>();
-
-            if (generatorParents != null)
-            {
-                for (int i = 0; i < generatorParents.Count; i++)
-                {
-                    if (!generatorParents[i].Intent.All(item => intent.Contains(item)))
-                        generatorParents[i] = Add(generatorParents[i].Intent.Intersect(intent).ToList(), generatorParents[i], lattice);
-
-                    bool addParent = true;
-
-                    foreach (var parent in newParents)
-                    {
-                        if (generatorParents[i].Intent.All(item => intent.Contains(item)))
-                        {
-                            addParent = false;
-                            break;
-                        }
-                        else if (parent.Intent.All(item => generatorParents[i].Intent.Contains(item))) 
-                            newParents.Remove(parent);
-                    }
-
-                    if (addParent) newParents.Add(generatorParents[i]);
-                }
-            }
-
-            Concept newConcept = new Concept(generatorConcept.Extent.ToList(), intent);
-
-            lattice.Add(newConcept, new List<Concept>());
-            if (newParents != null)
-            {
-                foreach (var parent in newParents)
-                {
-                    lattice[generatorConcept].Remove(parent);
-                    lattice[newConcept].Add(parent);
-                }
-            }
-
-            lattice[generatorConcept].Add(newConcept);
-
-            return newConcept;
-        }
-
-
     }
 }

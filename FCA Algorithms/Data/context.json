@@ -1,0 +1,56 @@
+[
+  {
+    "ObjNames": [
+      "fish leech",
+      "bream",
+      "frog",
+      "dog",
+      "water weeds",
+      "reed",
+      "bean",
+      "corn"
+    ],
+    "Params": {
+      "AttrNames": [
+        "needs water to live",
+        "lives in water",
+        "lives on land",
+        "needs chlorophyll",
+        "dicotyledon",
+        "monocotyledon",
+        "can move",
+        "has limbs",
+        "breast feeds"
+      ]
+    }
+  },
+  {
+    "Count": 8,
+    "Data": [
+      {
+        "Inds": [ 0, 1, 6 ]
+      },
+      {
+        "Inds": [ 0, 1, 6, 7 ]
+      },
+      {
+        "Inds": [ 0, 1, 2, 6, 7 ]
+      },
+      {
+        "Inds": [ 0, 2, 5, 7, 8 ]
+      },
+      {
+        "Inds": [ 0, 1, 3, 5 ]
+      },
+      {
+        "Inds": [ 0, 1, 2, 3, 5 ]
+      },
+      {
+        "Inds": [ 0, 2, 3, 4 ]
+      },
+      {
+        "Inds": [ 0, 2, 3, 5 ]
+      }
+    ]
+  }
+]
