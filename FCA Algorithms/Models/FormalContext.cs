@@ -58,8 +58,8 @@
         {
             var rnd = new Random();
 
-            int gCount = rnd.Next(2, 8);
-            int mCount = rnd.Next(2, 8);
+            int gCount = rnd.Next(2, 20);
+            int mCount = rnd.Next(2, 20);
 
             var objects = new List<string>();
             _g = objects;

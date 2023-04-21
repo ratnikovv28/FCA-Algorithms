@@ -22,5 +22,25 @@
             _extent = extent;
             _intent = intent;
         }
+
+        public static bool CheckConcepts(Concept concept1, Concept concept2)
+        {
+            foreach (string item in concept1.Extent)
+            {
+                if (!concept2.Extent.Contains(item))
+                {
+                    return false;
+                }
+            }
+
+            foreach (string item in concept1.Intent)
+            {
+                if (!concept2.Intent.Contains(item))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 }

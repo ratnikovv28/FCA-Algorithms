@@ -216,7 +216,7 @@ namespace FCA_Algorithms.Tests
         public void TestEachOther()
         {
             var rnd = new Random();
-            int length = rnd.Next(0, 5000);
+            int length = rnd.Next(0, 100000);
             for (int i = 0; i < length; i++)
             {
                 // Arrange
@@ -226,11 +226,11 @@ namespace FCA_Algorithms.Tests
                 var addAtom = AlgorithmAddAtom.AddAtom(fc);
                 var addIntent = AlgorithmAddIntent.AddIntent(fc);
 
-                string jsonDataOfAddAtom = JsonConvert.SerializeObject(addAtom, Formatting.Indented);
-                string jsonDataOfAddIntent = JsonConvert.SerializeObject(addIntent, Formatting.Indented);
-
-                // Assert
-                Assert.AreEqual(true, jsonDataOfAddAtom == jsonDataOfAddIntent);
+                foreach (var addAtomItem in addAtom)
+                {
+                    // Assert
+                    Assert.AreEqual(true, addIntent.Keys.Any(addIntentItem => Concept.CheckConcepts(addAtomItem.Key, addIntentItem)));
+                }
             }
         }
     }

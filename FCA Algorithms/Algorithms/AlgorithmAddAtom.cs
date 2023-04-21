@@ -1,6 +1,4 @@
 ﻿using FCA_Algorithms.Models;
-using System.Diagnostics;
-using System.Security.Cryptography.X509Certificates;
 
 namespace FCA_Algorithms.Algorithms
 {
@@ -47,15 +45,12 @@ namespace FCA_Algorithms.Algorithms
                     AddGToExtentAbove(g, highest, lattice);
                 }
 
-                if (!highest.Extent.Contains(g))
-                    highest.Extent.Add(g);
-
                 if (Enumerable.SequenceEqual(intent, newIntent))
                     return highest;
 
                 var addHighest = true;
 
-                if (nodeHighests != null)
+                if (nodeHighests.Count != 0)
                 {
                     var nodeHighestsCopy = nodeHighests.ToList();
                     foreach (var nodeHighest in nodeHighests)

@@ -3,6 +3,7 @@ using FCA_Algorithms.Models;
 using FCA_Algorithms.Services;
 using Newtonsoft.Json;
 using System.Diagnostics;
+using System.Linq;
 
 namespace FCA_Algorithms
 {
@@ -16,29 +17,8 @@ namespace FCA_Algorithms
         public static Dictionary<Concept, List<Concept>> addAtom;
         public static Dictionary<Concept, List<Concept>> addIntent;
 
-
         static void Main(string[] args)
         {
-            var rnd = new Random();
-            int length = rnd.Next(0, 5000);
-            for (int i = 0; i < length; i++)
-            {
-                // Arrange
-                var fc = new FormalContext();
-
-                // Act
-                var addAtom = AlgorithmAddAtom.AddAtom(fc);
-                var addIntent = AlgorithmAddIntent.AddIntent(fc);
-
-                string jsonDataOfAddAtom = JsonConvert.SerializeObject(addAtom, Formatting.Indented);
-                string jsonDataOfAddIntent = JsonConvert.SerializeObject(addIntent, Formatting.Indented);
-
-                // Assert
-                if(jsonDataOfAddAtom != jsonDataOfAddIntent){
-                    FileService.SetDataToJsonFiles(addAtom, addIntent, fc.M.Count, null);
-                }
-            }
-
             while (true)
             {
                 Console.Clear();
