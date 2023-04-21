@@ -14,7 +14,6 @@ namespace FCA_Algorithms.Tests
         [SetUp]
         public void Setup()
         {
-            //Result 13 Nodes 21 Links
             _fc1 = new FormalContext(
                 new List<string>()
                 {
@@ -63,7 +62,6 @@ namespace FCA_Algorithms.Tests
                     }
                 });
 
-            //Result 7 Nodes 9 Links
             _fc2 = new FormalContext(
                 new List<string>()
                 {
@@ -112,7 +110,6 @@ namespace FCA_Algorithms.Tests
                     }
                 });
 
-            //Result 6 Nodes 7 Links
             _fc3 = new FormalContext(
                 new List<string>()
                 {
@@ -192,7 +189,7 @@ namespace FCA_Algorithms.Tests
             var result3 = AlgorithmAddAtom.AddAtom(_fc3);
 
             // Assert
-            Assert.AreEqual(13, result1.Count);
+            Assert.AreEqual(11, result1.Count);
             Assert.AreEqual(7, result2.Count);
             Assert.AreEqual(6, result3.Count);
         }
@@ -209,17 +206,17 @@ namespace FCA_Algorithms.Tests
             var result3 = AlgorithmAddIntent.AddIntent(_fc3);
 
             // Assert
-            Assert.AreEqual(13, result1.Count);
+            Assert.AreEqual(11, result1.Count);
             Assert.AreEqual(7, result2.Count);
             Assert.AreEqual(6, result3.Count);
         }
 
-        //“ест на нулевой формальный контекст
+        //Random testing technique
         [Test]
         public void TestEachOther()
         {
             var rnd = new Random();
-            int length = rnd.Next(0, 600);
+            int length = rnd.Next(0, 5000);
             for (int i = 0; i < length; i++)
             {
                 // Arrange

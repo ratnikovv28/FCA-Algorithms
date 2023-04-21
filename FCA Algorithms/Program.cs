@@ -2,15 +2,11 @@
 using FCA_Algorithms.Models;
 using FCA_Algorithms.Services;
 using Newtonsoft.Json;
-using System;
 using System.Diagnostics;
-using System.Net.Http.Headers;
-using System.Text.Json;
-using System.Xml.Linq;
 
 namespace FCA_Algorithms
 {
-    internal class Program
+    public class Program
     {
         public static long addAtomTimeTicks = 0;
         public static long addIntentTimeTicks = 0;
@@ -23,6 +19,26 @@ namespace FCA_Algorithms
 
         static void Main(string[] args)
         {
+            var rnd = new Random();
+            int length = rnd.Next(0, 5000);
+            for (int i = 0; i < length; i++)
+            {
+                // Arrange
+                var fc = new FormalContext();
+
+                // Act
+                var addAtom = AlgorithmAddAtom.AddAtom(fc);
+                var addIntent = AlgorithmAddIntent.AddIntent(fc);
+
+                string jsonDataOfAddAtom = JsonConvert.SerializeObject(addAtom, Formatting.Indented);
+                string jsonDataOfAddIntent = JsonConvert.SerializeObject(addIntent, Formatting.Indented);
+
+                // Assert
+                if(jsonDataOfAddAtom != jsonDataOfAddIntent){
+                    FileService.SetDataToJsonFiles(addAtom, addIntent, fc.M.Count, null);
+                }
+            }
+
             while (true)
             {
                 Console.Clear();

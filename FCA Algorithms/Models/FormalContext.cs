@@ -31,7 +31,6 @@
             var objNames = G.Select(o => o.ToLower()).ToList();
 
             _g = new List<string>();
-            //_m = _combinedObjects[0].Params.AttrNames;
             _m = M;
             _i = new Dictionary<string, List<string>>();
 
@@ -59,8 +58,8 @@
         {
             var rnd = new Random();
 
-            int gCount = rnd.Next(2, 16);
-            int mCount = rnd.Next(2, 16);
+            int gCount = rnd.Next(2, 8);
+            int mCount = rnd.Next(2, 8);
 
             var objects = new List<string>();
             _g = objects;
@@ -77,10 +76,8 @@
 
             for (int i = 0; i <= mCount; i++)
             {
-                //char letter = (char)('a' + i);
-                //attributes.Add(letter.ToString());
-
-                attributes.Add(i.ToString());
+                char letter = (char)('a' + i);
+                attributes.Add(letter.ToString());
             }
 
             for (int i = 0; i <= gCount; i++)

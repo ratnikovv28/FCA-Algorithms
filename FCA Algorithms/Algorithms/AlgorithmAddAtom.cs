@@ -6,12 +6,9 @@ namespace FCA_Algorithms.Algorithms
 {
     public class AlgorithmAddAtom
     {
-        public static int i;
         public static Dictionary<Concept, List<Concept>> AddAtom(FormalContext fc)
         {
-            i = 0;
-            var bottomConcept = new Concept(new List<string>(), fc.M, i);
-            i++;
+            var bottomConcept = new Concept(new List<string>(), fc.M);
 
             var lattice = new Dictionary<Concept, List<Concept>>()
             {
@@ -25,11 +22,6 @@ namespace FCA_Algorithms.Algorithms
 
             if (lattice[bottomConcept].Count == 1 && bottomConcept.Intent.All(item => lattice.ElementAt(1).Key.Intent.Contains(item)))
             {
-                foreach (var node in lattice)
-                {
-                    node.Key.Id--;
-                }
-
                 lattice.Remove(bottomConcept);
             }
 
@@ -82,7 +74,7 @@ namespace FCA_Algorithms.Algorithms
                 if (addHighest) nodeHighests.Add(highest);
             }
 
-            var newConcept = new Concept(generatorConcept.Extent.Union(new List<string>() { g }).ToList(), intent, i++);
+            var newConcept = new Concept(generatorConcept.Extent.Union(new List<string>() { g }).ToList(), intent);
 
             lattice.Add(newConcept, new List<Concept>());
 
@@ -110,8 +102,6 @@ namespace FCA_Algorithms.Algorithms
             }
 
             lattice[objectConcept] = parents;
-            //lattice.Remove(objectConcept);
-            //lattice.Add(objectConcept, parents);
         }
 
         public static Concept GetHighestNodeOfIntent(List<string> intent, Concept generatorConcept, Dictionary<Concept, List<Concept>> lattice)

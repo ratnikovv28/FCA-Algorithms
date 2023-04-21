@@ -34,7 +34,6 @@ namespace FCA_Algorithms.Services
                     ArcsCount = numberOfArguments
                 },
                 Nodes = new List<NodeData>(),
-                Arcs = new List<ArcsData>()
             };
             var addIntentLattice = new Lattice()
             {
@@ -44,7 +43,6 @@ namespace FCA_Algorithms.Services
                     ArcsCount = numberOfArguments
                 },
                 Nodes = new List<NodeData>(),
-                Arcs = new List<ArcsData>()
             };
 
             foreach (var node in addAtom)
@@ -62,18 +60,7 @@ namespace FCA_Algorithms.Services
                         Names = node.Key.Intent.ToArray()
                     },
                 });
-
-                foreach (var item in node.Value)
-                {
-                    addAtomLattice.Arcs.Add(new ArcsData()
-                    {
-                        S = item.Id,
-                        D = node.Key.Id
-                    });
-                }
             }
-
-            addAtomLattice.Arcs = addAtomLattice.Arcs.OrderBy(a => a.S).ToList();
 
             foreach (var node in addIntent)
             {
@@ -90,18 +77,7 @@ namespace FCA_Algorithms.Services
                         Names = node.Key.Intent.ToArray()
                     },
                 });
-
-                foreach (var item in node.Value)
-                {
-                    addIntentLattice.Arcs.Add(new ArcsData()
-                    {
-                        S = item.Id,
-                        D = node.Key.Id
-                    });
-                }
             }
-
-            addIntentLattice.Arcs = addIntentLattice.Arcs.OrderBy(a => a.S).ToList();
 
             string jsonDataOfAddAtom = JsonConvert.SerializeObject(addAtomLattice, Formatting.Indented);
             string jsonDataOfAddIntent = JsonConvert.SerializeObject(addIntentLattice, Formatting.Indented);

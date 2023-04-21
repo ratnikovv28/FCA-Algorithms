@@ -11,7 +11,6 @@ namespace FCA_Algorithms.Models
     {
         public RootData Data { get; set; }
         public List<NodeData> Nodes { get; set; }
-        public List<ArcsData> Arcs { get; set; }
     }
     public class RootData
     {
@@ -27,11 +26,5 @@ namespace FCA_Algorithms.Models
         }
         public Data Ext { get; set; }
         public Data Int { get; set; }
-    }
-
-    public class ArcsData
-    {
-        public int S { get; set; }
-        public int D { get; set; }
     }
 }
