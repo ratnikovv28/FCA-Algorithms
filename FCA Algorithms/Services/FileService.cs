@@ -1,6 +1,5 @@
 ﻿using FCA_Algorithms.Models;
 using Newtonsoft.Json;
-using System.Xml.Linq;
 
 namespace FCA_Algorithms.Services
 {
@@ -10,6 +9,41 @@ namespace FCA_Algorithms.Services
         private static string addIntentFile = @"..\..\..\Data\ResultOfAddIntent.json";
         private static string addAtomFilteredFile = @"..\..\..\Data\ResultOfFilteredAddAtom.json";
         private static string addIntentFilteredFile = @"..\..\..\Data\ResultOfFilteredAddIntent.json";
+        public static string formalContextMax1File = @"..\..\..\Data\FormalContextMax1.json";
+        public static string formalContextMax2File = @"..\..\..\Data\FormalContextMax2.json";
+        public static string formalContextMed1File = @"..\..\..\Data\FormalContextMed1.json";
+        public static string formalContextMed2File = @"..\..\..\Data\FormalContextMed2.json";
+        public static string formalContextMin1File = @"..\..\..\Data\FormalContextMin1.json";
+        public static string formalContextMin2File = @"..\..\..\Data\FormalContextMin2.json";
+
+        public static void CreateJsonFileByFormalContext(FormalContext fc, string fileName)
+        {
+            List<CombinedObject> fcForJSON = new List<CombinedObject>()
+            {
+                new CombinedObject()
+                {
+                    ObjNames = new List<string>(),
+                    Params = new Params(),
+                    Data = new List<Data>()
+                },
+                new CombinedObject()
+                {
+                    ObjNames = new List<string>(),
+                    Params = new Params(),
+                    Data = new List<Data>()
+                }
+            };
+            fcForJSON[0].ObjNames = fc.G;
+            fcForJSON[0].Params.AttrNames = fc.M;
+            List<Data> data = new List<Data>();
+            foreach (var item in fc.I)
+            {
+                data.Add(new Data() { Inds = item.Value.Select(a => int.Parse(a)).ToList() });
+            }
+            fcForJSON[1].Data = data;
+            var jsonDataOfFormalContext = JsonConvert.SerializeObject(fcForJSON, Formatting.Indented);
+            File.WriteAllText(fileName, jsonDataOfFormalContext);
+        }
 
         public static FormalContext GetDataFromJsonFile(string contextFilePath)
         {

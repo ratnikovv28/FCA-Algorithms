@@ -1,4 +1,6 @@
-﻿namespace FCA_Algorithms.Models
+﻿using System;
+
+namespace FCA_Algorithms.Models
 {
     public class FormalContext
     {
@@ -40,7 +42,7 @@
                 for (int i = 0; i < objectWithIntents.Count(); i++)
                 {
                     _g.Add((i + 1).ToString());
-                    _i.Add((i + 1).ToString(), objectWithIntents[i].Inds.Select(intent => M[intent]).ToList());
+                    _i.Add((i + 1).ToString(), objectWithIntents[i].Inds.Select(intent => (int.Parse(M[intent - 1])).ToString()).ToList());
                 }
             }
             else
@@ -49,17 +51,17 @@
                 //Добавляем в матрицу инцидентности формальные понятия
                 for (int i = 0; i < objectWithIntents.Count(); i++)
                 {
-                    _i.Add(G[i], objectWithIntents[i].Inds.Select(intent => M[intent]).ToList());
+                    _i.Add(G[i], objectWithIntents[i].Inds.Select(intent => (int.Parse(M[intent - 1])).ToString()).ToList());
                 }
             }
         }
 
-        public FormalContext()
+        public FormalContext(int gSize, int mSize, int discharge)
         {
             var rnd = new Random();
 
-            int gCount = rnd.Next(2, 20);
-            int mCount = rnd.Next(2, 20);
+            int gCount = gSize;
+            int mCount = mSize;
 
             var objects = new List<string>();
             _g = objects;
@@ -69,36 +71,28 @@
 
             _i = new Dictionary<string, List<string>>();
 
-            for (int i = 0; i <= gCount; i++)
+            for (int i = 0; i < gCount; i++)
             {
                 objects.Add((i + 1).ToString());
             }
 
-            for (int i = 0; i <= mCount; i++)
+            for (int i = 0; i < mCount; i++)
             {
-                char letter = (char)('a' + i);
-                attributes.Add(letter.ToString());
+                attributes.Add((i + 1).ToString());
             }
 
-            for (int i = 0; i <= gCount; i++)
+            for (int i = 0; i < gCount; i++)
             {
                 var rnd1 = new Random();
-                int length = rnd1.Next(0, 7); // генерируем длину списка от 1 до 10
+                int length = mCount; // генерируем длину списка от 1 до 10
 
                 var dependency = new List<int>();
-                var prev = rnd1.Next(0, mCount - 1); // генерируем первое случайное число от 0 до mCount(количества атрибутов)
-                dependency.Add(prev);
                 for (int j = 0; j < length; j++)
                 {
-                    if (prev + 1 != mCount)
+                    if (rnd.Next(1, 100) % discharge == 0)
                     {
-                        var next = rnd1.Next(prev + 1, mCount);
-                        dependency.Add(next);
-                        prev = next;
-                        if (prev == mCount && i + 1 == length) break;
+                        dependency.Add(j);
                     }
-                    else
-                        break;
                 }
 
                 data.Add(new Data()
@@ -110,7 +104,59 @@
             //Добавляем в матрицу инцидентности формальные понятия
             for (int i = 0; i < data.Count; i++)
             {
-                _i.Add((i + 1).ToString(), data[i].Inds.Select(intent => M[intent]).ToList());
+                _i.Add((i + 1).ToString(), data[i].Inds.Select(intent => (int.Parse(M[intent]) - 1).ToString()).ToList());
+            }
+        }
+
+        public FormalContext()
+        {
+            var rnd = new Random();
+
+            int gCount = rnd.Next(2, 30);
+            int mCount = rnd.Next(2, 30);
+
+            var objects = new List<string>();
+            _g = objects;
+            var attributes = new List<string>();
+            _m = attributes;
+            var data = new List<Data>();
+
+            _i = new Dictionary<string, List<string>>();
+
+            for (int i = 0; i < gCount; i++)
+            {
+                objects.Add((i + 1).ToString());
+            }
+
+            for (int i = 0; i < mCount; i++)
+            {
+                attributes.Add((i + 1).ToString());
+            }
+
+            for (int i = 0; i < gCount; i++)
+            {
+                var rnd1 = new Random();
+                int length = mCount; // генерируем длину списка от 1 до 10
+
+                var dependency = new List<int>();
+                for (int j = 0; j < length; j++)
+                {
+                    if(rnd.Next(1, 1000) % 2 == 0)
+                    {
+                        dependency.Add(j);
+                    }
+                }
+
+                data.Add(new Data()
+                {
+                    Inds = dependency
+                });
+            }
+
+            //Добавляем в матрицу инцидентности формальные понятия
+            for (int i = 0; i < data.Count; i++)
+            {
+                _i.Add((i + 1).ToString(), data[i].Inds.Select(intent => (int.Parse(M[intent]) - 1).ToString()).ToList());
             }
         }
 

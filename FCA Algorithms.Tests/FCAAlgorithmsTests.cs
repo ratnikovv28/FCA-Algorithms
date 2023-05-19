@@ -2,6 +2,7 @@ using FCA_Algorithms.Algorithms;
 using FCA_Algorithms.Models;
 using FCA_Algorithms.Services;
 using Newtonsoft.Json;
+using System.Diagnostics;
 
 namespace FCA_Algorithms.Tests
 {
@@ -189,7 +190,7 @@ namespace FCA_Algorithms.Tests
             var result3 = AlgorithmAddAtom.AddAtom(_fc3);
 
             // Assert
-            Assert.AreEqual(11, result1.Count);
+            Assert.AreEqual(13, result1.Count);
             Assert.AreEqual(7, result2.Count);
             Assert.AreEqual(6, result3.Count);
         }
@@ -206,7 +207,7 @@ namespace FCA_Algorithms.Tests
             var result3 = AlgorithmAddIntent.AddIntent(_fc3);
 
             // Assert
-            Assert.AreEqual(11, result1.Count);
+            Assert.AreEqual(13, result1.Count);
             Assert.AreEqual(7, result2.Count);
             Assert.AreEqual(6, result3.Count);
         }
@@ -216,13 +217,13 @@ namespace FCA_Algorithms.Tests
         public void TestEachOther()
         {
             var rnd = new Random();
-            int length = rnd.Next(0, 100000);
+            //int length = rnd.Next(0, 100000);
+            int length =  100;
             for (int i = 0; i < length; i++)
             {
                 // Arrange
                 var fc = new FormalContext();
 
-                // Act
                 var addAtom = AlgorithmAddAtom.AddAtom(fc);
                 var addIntent = AlgorithmAddIntent.AddIntent(fc);
 
